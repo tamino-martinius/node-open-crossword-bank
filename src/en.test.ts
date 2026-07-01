@@ -16,8 +16,14 @@ test('en metadata + enriched query', () => {
   expect(en.wordCount()).toBeGreaterThanOrEqual(29000);
   expect(en.getTiers()).toEqual([1, 2, 3, 4, 5]);
   expect(en.getLengths()).toContain(5);
-  const clued = en.getEntries({ length: 5, clueType: 'definition', count: 3, seed: 2 });
-  for (const e of clued) expect(e.clues.some((c) => c.type === 'definition')).toBe(true);
+  const clued = en.getEntries({
+    length: 5,
+    clueType: 'definition',
+    count: 3,
+    seed: 2,
+  });
+  for (const e of clued)
+    expect(e.clues.some((c) => c.type === 'definition')).toBe(true);
 });
 
 test('en createFill drives backtracking over the pool', () => {

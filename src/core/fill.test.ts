@@ -7,14 +7,31 @@ const w = (word: string, freqTier: 1 | 2 | 3 | 4 | 5 = 1): WordEntry => ({
   lang: 'en',
   freqTier,
 });
-const POOL: WordEntry[] = [w('CAT'), w('CAR'), w('COD'), w('DOG'), w('CODE'), w('CARD')];
+const POOL: WordEntry[] = [
+  w('CAT'),
+  w('CAR'),
+  w('COD'),
+  w('DOG'),
+  w('CODE'),
+  w('CARD'),
+];
 
 test('candidates match pattern by length and letters, seeded-stable', () => {
   const f = createFillFromPool(POOL, 5);
-  const c = f.candidates('C??').map((x) => x.word).sort();
+  const c = f
+    .candidates('C??')
+    .map((x) => x.word)
+    .sort();
   expect(c).toEqual(['CAR', 'CAT', 'COD']);
-  expect(f.candidates('C??').map((x) => x.word)).toEqual(f.candidates('C??').map((x) => x.word)); // stable
-  expect(f.candidates('CA?').map((x) => x.word).sort()).toEqual(['CAR', 'CAT']);
+  expect(f.candidates('C??').map((x) => x.word)).toEqual(
+    f.candidates('C??').map((x) => x.word),
+  ); // stable
+  expect(
+    f
+      .candidates('CA?')
+      .map((x) => x.word)
+      .sort(),
+  ).toEqual(['CAR', 'CAT']);
 });
 
 test('place/unplace drive backtracking; misses return []', () => {

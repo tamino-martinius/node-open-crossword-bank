@@ -1,4 +1,10 @@
-import type { WordEntry, EnrichedEntry, WordQuery, EntryQuery, FreqTier } from '../types.js';
+import type {
+  WordEntry,
+  EnrichedEntry,
+  WordQuery,
+  EntryQuery,
+  FreqTier,
+} from '../types.js';
 import { mulberry32, shuffle } from './rng.js';
 import { matchesPattern } from './pattern.js';
 
@@ -36,24 +42,41 @@ export function selectWords(
   query: WordQuery,
   cluableIds?: ReadonlySet<string>,
 ): WordEntry[] {
-  const ordered = orderBySeed(filterWords(words, query, cluableIds), query.seed);
+  const ordered = orderBySeed(
+    filterWords(words, query, cluableIds),
+    query.seed,
+  );
   return query.count === undefined ? ordered : ordered.slice(0, query.count);
 }
 
-export function filterEntries(entries: readonly EnrichedEntry[], query: EntryQuery): EnrichedEntry[] {
+export function filterEntries(
+  entries: readonly EnrichedEntry[],
+  query: EntryQuery,
+): EnrichedEntry[] {
   // Reuse the word-level filters (EnrichedEntry extends WordEntry); `cluable` is a no-op here.
-  const base = filterWords(entries, { ...query, cluable: false }) as EnrichedEntry[];
+  const base = filterWords(entries, {
+    ...query,
+    cluable: false,
+  }) as EnrichedEntry[];
   return base.filter((e) => {
     if (query.pos && e.pos !== query.pos) return false;
-    if (query.clueType && !e.clues.some((c) => c.type === query.clueType)) return false;
-    if (query.maxClueDifficulty !== undefined && !e.clues.some((c) => c.difficulty <= query.maxClueDifficulty!)) {
+    if (query.clueType && !e.clues.some((c) => c.type === query.clueType))
+      return false;
+    const maxDiff = query.maxClueDifficulty;
+    if (
+      maxDiff !== undefined &&
+      !e.clues.some((c) => c.difficulty <= maxDiff)
+    ) {
       return false;
     }
     return true;
   });
 }
 
-export function selectEntries(entries: readonly EnrichedEntry[], query: EntryQuery): EnrichedEntry[] {
+export function selectEntries(
+  entries: readonly EnrichedEntry[],
+  query: EntryQuery,
+): EnrichedEntry[] {
   const ordered = orderBySeed(filterEntries(entries, query), query.seed);
   return query.count === undefined ? ordered : ordered.slice(0, query.count);
 }

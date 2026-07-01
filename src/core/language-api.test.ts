@@ -12,7 +12,22 @@ test('createLanguageApi wires words + entries', () => {
     ...hydrateBase('en', 2, ['CARD']),
   ];
   const entries = [
-    { id: words[0].id, word: 'CAT', lang: 'en' as const, freqTier: 1 as const, length: 3, pos: 'noun' as const, syllables: ['CAT'], clues: [{ type: 'definition' as const, difficulty: 2 as const, text: 'A feline' }] },
+    {
+      id: words[0].id,
+      word: 'CAT',
+      lang: 'en' as const,
+      freqTier: 1 as const,
+      length: 3,
+      pos: 'noun' as const,
+      syllables: ['CAT'],
+      clues: [
+        {
+          type: 'definition' as const,
+          difficulty: 2 as const,
+          text: 'A feline',
+        },
+      ],
+    },
   ];
   const api = createLanguageApi(words, entries);
   expect(api.wordCount()).toBe(3);
@@ -22,7 +37,14 @@ test('createLanguageApi wires words + entries', () => {
   expect(api.getWordById(words[0].id)?.word).toBe('CAT');
   expect(api.getEntryById(words[0].id)?.pos).toBe('noun');
   expect(api.getWords({ cluable: true }).map((w) => w.word)).toEqual(['CAT']);
-  expect(api.getWords({ pattern: 'CA??' }).map((w) => w.word)).toEqual(['CARD']);
+  expect(api.getWords({ pattern: 'CA??' }).map((w) => w.word)).toEqual([
+    'CARD',
+  ]);
   const fill = api.createFill({ seed: 1 });
-  expect(fill.candidates('???').map((w) => w.word).sort()).toEqual(['CAT', 'RUN']);
+  expect(
+    fill
+      .candidates('???')
+      .map((w) => w.word)
+      .sort(),
+  ).toEqual(['CAT', 'RUN']);
 });
