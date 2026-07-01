@@ -70,7 +70,7 @@ export async function createFill(lang: Lang, query: FillQuery = {}): Promise<Fil
   const base = await loadWords(lang, query);
   let pool = base;
   if (query.cluable) {
-    const ids = await cluableIdsFor(lang, {});
+    const ids = await cluableIdsFor(lang, query);
     pool = base.filter((w) => ids.has(w.id));
   }
   return createFillFromPool(filterWords(pool, { tier: query.tier }), query.seed);
