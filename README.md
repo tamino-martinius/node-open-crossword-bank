@@ -36,7 +36,7 @@ Requires Node.js >= 22.
 The default entry (`open-crossword-bank`) lazy-loads only the tier or length leaves a query touches, which lets bundlers (Webpack, Vite, esbuild) code-split each data module automatically.
 
 ```ts
-import { getWords, getEntries, createFill, toPattern } from 'open-crossword-bank';
+import { getWords, getEntries, createFill, toPattern, wordCount, entryCount, getTiers, getLengths } from 'open-crossword-bank';
 
 // Five-letter English words matching ?A??E, seeded for reproducibility
 const words = await getWords('en', { pattern: toPattern(5, { 1: 'A', 4: 'E' }), count: 10, seed: 42 });
@@ -47,7 +47,6 @@ const clued = await getEntries('de', { length: 6, clueType: 'definition', count:
 console.log(clued[0].clues[0].text);
 
 // Synchronous metadata (no await needed)
-import { wordCount, entryCount, getTiers, getLengths } from 'open-crossword-bank';
 console.log(wordCount('en'));    // 30000
 console.log(entryCount('de'));   // 6383
 ```
