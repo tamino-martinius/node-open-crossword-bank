@@ -27,6 +27,9 @@ describe.each(LANGS)('$lang data integrity', ({ lang, base, entries, baseCounts,
 
   test('manifest base counts match leaf contents', () => {
     for (const b of base) expect(b.words.length).toBe(baseCounts[b.tier]);
+    expect(base.map((b) => b.tier).sort((a, b) => a - b)).toEqual(
+      Object.keys(baseCounts).map(Number).sort((a, b) => a - b),
+    );
   });
 
   test('enriched: id/length/syllables consistent, ⊆ base, valid clue count', () => {
@@ -41,5 +44,6 @@ describe.each(LANGS)('$lang data integrity', ({ lang, base, entries, baseCounts,
       byLen.set(e.length, (byLen.get(e.length) ?? 0) + 1);
     }
     for (const [len, n] of byLen) expect(n).toBe(enrCounts[len]);
+    for (const [len, n] of Object.entries(enrCounts)) expect(byLen.get(Number(len))).toBe(n);
   });
 });
