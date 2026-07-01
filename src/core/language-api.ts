@@ -1,5 +1,11 @@
 import type {
-  WordEntry, EnrichedEntry, WordQuery, EntryQuery, FreqTier, Fill, FillQuery,
+  WordEntry,
+  EnrichedEntry,
+  WordQuery,
+  EntryQuery,
+  FreqTier,
+  Fill,
+  FillQuery,
 } from '../types.js';
 import { selectWords, selectEntries, filterWords } from './select.js';
 import { createFillFromPool } from './fill.js';
@@ -24,8 +30,12 @@ export function createLanguageApi(
   entries: readonly EnrichedEntry[],
 ): LanguageApi {
   const cluableIds = new Set(entries.map((e) => e.id));
-  const tiers = [...new Set(words.map((w) => w.freqTier))].sort((a, b) => a - b) as FreqTier[];
-  const lengths = [...new Set(entries.map((e) => e.length))].sort((a, b) => a - b);
+  const tiers = [...new Set(words.map((w) => w.freqTier))].sort(
+    (a, b) => a - b,
+  ) as FreqTier[];
+  const lengths = [...new Set(entries.map((e) => e.length))].sort(
+    (a, b) => a - b,
+  );
 
   return {
     getWords: (query = {}) => selectWords(words, query, cluableIds),
@@ -37,7 +47,9 @@ export function createLanguageApi(
     wordCount: () => words.length,
     entryCount: () => entries.length,
     createFill: (query = {}) => {
-      const base = query.cluable ? words.filter((w) => cluableIds.has(w.id)) : words;
+      const base = query.cluable
+        ? words.filter((w) => cluableIds.has(w.id))
+        : words;
       const pool = filterWords(base, { tier: query.tier });
       return createFillFromPool(pool, query.seed);
     },

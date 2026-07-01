@@ -12,15 +12,22 @@ export function matchesPattern(word: string, pattern: string): boolean {
 }
 
 /** Build a pattern of `length` wildcards with `fixed` letters placed by index. */
-export function toPattern(length: number, fixed: Record<number, string> = {}): string {
+export function toPattern(
+  length: number,
+  fixed: Record<number, string> = {},
+): string {
   const out = Array.from({ length }, () => WILDCARD);
   for (const [k, v] of Object.entries(fixed)) {
     const i = Number(k);
     if (!Number.isInteger(i) || i < 0 || i >= length) {
-      throw new Error(`toPattern: index ${k} out of range for length ${length}`);
+      throw new Error(
+        `toPattern: index ${k} out of range for length ${length}`,
+      );
     }
     if (typeof v !== 'string' || v.length !== 1) {
-      throw new Error(`toPattern: fixed[${k}] must be a single character, got ${JSON.stringify(v)}`);
+      throw new Error(
+        `toPattern: fixed[${k}] must be a single character, got ${JSON.stringify(v)}`,
+      );
     }
     out[i] = v.toUpperCase();
   }

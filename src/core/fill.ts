@@ -7,8 +7,12 @@ import { matchesPattern } from './pattern.js';
  * captured at construction so candidate orderings stay internally consistent across
  * a backtracking search while different sessions still vary.
  */
-export function createFillFromPool(words: readonly WordEntry[], seed?: number): Fill {
-  const resolvedSeed = seed === undefined ? Math.floor(Math.random() * 0x100000000) : seed;
+export function createFillFromPool(
+  words: readonly WordEntry[],
+  seed?: number,
+): Fill {
+  const resolvedSeed =
+    seed === undefined ? Math.floor(Math.random() * 0x100000000) : seed;
   const ordered = shuffle(words, mulberry32(resolvedSeed));
   const byLength = new Map<number, WordEntry[]>();
   for (const w of ordered) {
@@ -21,7 +25,9 @@ export function createFillFromPool(words: readonly WordEntry[], seed?: number): 
   return {
     candidates(pattern) {
       const bucket = byLength.get(pattern.length) ?? [];
-      return bucket.filter((w) => !placed.has(w.word) && matchesPattern(w.word, pattern));
+      return bucket.filter(
+        (w) => !placed.has(w.word) && matchesPattern(w.word, pattern),
+      );
     },
     place(word) {
       placed.add(word);

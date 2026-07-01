@@ -5,12 +5,36 @@ import { makeId } from '../core/ids.js';
 import { BASE_COUNTS, ENRICHED_COUNTS } from '../core/manifest.js';
 import type { Lang } from '../types.js';
 
-const LANGS: { lang: Lang; base: typeof EN_BASE; entries: typeof EN_ENTRIES; baseCounts: Record<number, number>; enrCounts: Record<number, number> }[] = [
-  { lang: 'en', base: EN_BASE, entries: EN_ENTRIES, baseCounts: BASE_COUNTS.en, enrCounts: ENRICHED_COUNTS.en },
-  { lang: 'de', base: DE_BASE, entries: DE_ENTRIES, baseCounts: BASE_COUNTS.de, enrCounts: ENRICHED_COUNTS.de },
+const LANGS: {
+  lang: Lang;
+  base: typeof EN_BASE;
+  entries: typeof EN_ENTRIES;
+  baseCounts: Record<number, number>;
+  enrCounts: Record<number, number>;
+}[] = [
+  {
+    lang: 'en',
+    base: EN_BASE,
+    entries: EN_ENTRIES,
+    baseCounts: BASE_COUNTS.en,
+    enrCounts: ENRICHED_COUNTS.en,
+  },
+  {
+    lang: 'de',
+    base: DE_BASE,
+    entries: DE_ENTRIES,
+    baseCounts: BASE_COUNTS.de,
+    enrCounts: ENRICHED_COUNTS.de,
+  },
 ];
 
-describe.each(LANGS)('$lang data integrity', ({ lang, base, entries, baseCounts, enrCounts }) => {
+describe.each(LANGS)('$lang data integrity', ({
+  lang,
+  base,
+  entries,
+  baseCounts,
+  enrCounts,
+}) => {
   const words = base.flatMap((b) => hydrateBase(lang, b.tier, b.words));
   const wordSet = new Set(words.map((w) => w.word));
 
@@ -28,7 +52,9 @@ describe.each(LANGS)('$lang data integrity', ({ lang, base, entries, baseCounts,
   test('manifest base counts match leaf contents', () => {
     for (const b of base) expect(b.words.length).toBe(baseCounts[b.tier]);
     expect(base.map((b) => b.tier).sort((a, b) => a - b)).toEqual(
-      Object.keys(baseCounts).map(Number).sort((a, b) => a - b),
+      Object.keys(baseCounts)
+        .map(Number)
+        .sort((a, b) => a - b),
     );
   });
 
@@ -44,6 +70,7 @@ describe.each(LANGS)('$lang data integrity', ({ lang, base, entries, baseCounts,
       byLen.set(e.length, (byLen.get(e.length) ?? 0) + 1);
     }
     for (const [len, n] of byLen) expect(n).toBe(enrCounts[len]);
-    for (const [len, n] of Object.entries(enrCounts)) expect(byLen.get(Number(len))).toBe(n);
+    for (const [len, n] of Object.entries(enrCounts))
+      expect(byLen.get(Number(len))).toBe(n);
   });
 });

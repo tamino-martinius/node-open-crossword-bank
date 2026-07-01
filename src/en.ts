@@ -2,8 +2,18 @@ import { BASE, ENTRIES } from './data/en/index.js';
 import { hydrateBase, createLanguageApi } from './core/language-api.js';
 
 export type {
-  Lang, FreqTier, Difficulty, ClueType, Pos, Clue, WordEntry, EnrichedEntry,
-  WordQuery, EntryQuery, Fill, FillQuery,
+  Lang,
+  FreqTier,
+  Difficulty,
+  ClueType,
+  Pos,
+  Clue,
+  WordEntry,
+  EnrichedEntry,
+  WordQuery,
+  EntryQuery,
+  Fill,
+  FillQuery,
 } from './types.js';
 export { matchesPattern, toPattern, WILDCARD } from './core/pattern.js';
 
