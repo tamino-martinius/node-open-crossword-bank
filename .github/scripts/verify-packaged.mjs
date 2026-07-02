@@ -42,6 +42,31 @@ try {
   step('runtime: CommonJS require()', () => run(node, ['--test', 'consumer.cjs'], { cwd: tmp }));
   step('runtime: ESM import', () => run(node, ['--test', 'consumer.mjs'], { cwd: tmp }));
 
+  step('bundling: esbuild bundles the async root entry and it actually loads data', () => {
+    npmInstall(['install', 'esbuild@latest', '--no-audit', '--no-fund', '--silent'], tmp);
+    writeFileSync(
+      join(tmp, 'bundle-entry.mjs'),
+      "import { getWords } from 'open-crossword-bank';\n" +
+        "const r = await getWords('en', { length: 5, count: 1 });\n" +
+        "if (!r.length || r[0].word.length !== 5) throw new Error('bundled root import returned no data');\n" +
+        "console.log('BUNDLE_OK');\n",
+    );
+    run(
+      node,
+      [
+        join(tmp, 'node_modules', 'esbuild', 'bin', 'esbuild'),
+        'bundle-entry.mjs',
+        '--bundle',
+        '--platform=node',
+        '--format=esm',
+        '--outfile=bundle.mjs',
+      ],
+      { cwd: tmp },
+    );
+    const out = execFileSync(node, [join(tmp, 'bundle.mjs')], { cwd: tmp, encoding: 'utf8' });
+    if (out.trim() !== 'BUNDLE_OK') throw new Error(`unexpected bundle output: ${out}`);
+  });
+
   const tscBin = join(tmp, 'node_modules', 'typescript', 'bin', 'tsc');
   const useMain = "import { getWords, type WordEntry } from 'open-crossword-bank';\nexport const a: Promise<WordEntry[]> = getWords('en', { seed: 1 });\n";
   const useSub = "import { getWords } from 'open-crossword-bank/en';\nexport const b: string[] = getWords({ seed: 1 }).map((w) => w.id);\n";
