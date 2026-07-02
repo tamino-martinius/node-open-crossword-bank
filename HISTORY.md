@@ -2,6 +2,10 @@
 
 ## vNext
 
+TBD
+
+## v1.0.1
+
 - **Fix:** the async root entry's lazy per-tier/per-length loading now uses static, generated loader maps instead of template-literal `import()`, so it actually code-splits under bundlers (Vite/webpack/esbuild) as documented — previously the dynamic import silently broke in bundled output. No API changes.
 
 ## v1.0.0
