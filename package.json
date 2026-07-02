@@ -1,6 +1,6 @@
 {
   "name": "open-crossword-bank",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Open, seedable bilingual (en/de) crossword word bank — 30k words/language plus a clued subset (syllables, POS, clues), with a pattern-matching query API for grid-filling. Code MIT, data CC0.",
   "author": "Tamino Martinius <io@tamino.dev>",
   "license": "MIT",
@@ -9,22 +9,61 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": { "types": "./esm/index.d.ts", "default": "./esm/index.js" },
-      "require": { "types": "./dist/index.d.ts", "default": "./dist/index.js" }
+      "import": {
+        "types": "./esm/index.d.ts",
+        "default": "./esm/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
     },
     "./en": {
-      "import": { "types": "./esm/en.d.ts", "default": "./esm/en.js" },
-      "require": { "types": "./dist/en.d.ts", "default": "./dist/en.js" }
+      "import": {
+        "types": "./esm/en.d.ts",
+        "default": "./esm/en.js"
+      },
+      "require": {
+        "types": "./dist/en.d.ts",
+        "default": "./dist/en.js"
+      }
     },
     "./de": {
-      "import": { "types": "./esm/de.d.ts", "default": "./esm/de.js" },
-      "require": { "types": "./dist/de.d.ts", "default": "./dist/de.js" }
+      "import": {
+        "types": "./esm/de.d.ts",
+        "default": "./esm/de.js"
+      },
+      "require": {
+        "types": "./dist/de.d.ts",
+        "default": "./dist/de.js"
+      }
     }
   },
-  "files": ["dist", "esm", "src"],
-  "repository": { "type": "git", "url": "https://github.com/tamino-martinius/node-open-crossword-bank.git" },
-  "keywords": ["crossword", "words", "wordlist", "wordbank", "clues", "german", "english", "cc0", "seeded", "pattern", "typescript"],
-  "engines": { "node": ">=22" },
+  "files": [
+    "dist",
+    "esm",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tamino-martinius/node-open-crossword-bank.git"
+  },
+  "keywords": [
+    "crossword",
+    "words",
+    "wordlist",
+    "wordbank",
+    "clues",
+    "german",
+    "english",
+    "cc0",
+    "seeded",
+    "pattern",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "gen": "node scripts/build-manifest.mjs && biome format --write src/core/manifest.ts src/core/loaders.ts src/data/en/index.ts src/data/de/index.ts",
     "prebuild": "npm run gen",
