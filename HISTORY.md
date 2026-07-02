@@ -2,6 +2,10 @@
 
 ## vNext
 
+TBD
+
+## v1.0.0
+
 - **Package created:** initial release of `open-crossword-bank`, an open, seedable bilingual (English + German) crossword word bank.
 - **Async main entry** (`open-crossword-bank`): `getWords`, `getEntries`, `getWordById`, `getEntryById`, `createFill`, plus sync metadata (`getTiers`, `getLengths`, `wordCount`, `entryCount`) — lazily loads only the tier/length leaves a query touches, so bundlers (Webpack, Vite, esbuild) code-split each data module.
 - **Sync per-language entries** (`open-crossword-bank/en`, `open-crossword-bank/de`): same API surface without `await` and without a `lang` parameter; eagerly loads all data for the selected language at import time.
