@@ -15,6 +15,7 @@ import {
   ENRICHED_COUNTS,
 } from './core/manifest.js';
 import { hydrateBase } from './core/hydrate.js';
+import { BASE_LOADERS, ENRICHED_LOADERS } from './core/loaders.js';
 import { selectWords, selectEntries, filterWords } from './core/select.js';
 import { createFillFromPool } from './core/fill.js';
 
@@ -34,20 +35,17 @@ export type {
 } from './types.js';
 export { matchesPattern, toPattern, WILDCARD } from './core/pattern.js';
 
-// Static './data/' prefix lets bundlers (Webpack/Vite/esbuild) code-split each leaf.
 async function loadBaseTier(lang: Lang, tier: FreqTier): Promise<WordEntry[]> {
-  const mod = (await import(`./data/${lang}/base/tier-${tier}.js`)) as {
-    WORDS: readonly string[];
-  };
+  const mod = await BASE_LOADERS[lang][tier]();
   return hydrateBase(lang, tier, mod.WORDS);
 }
 async function loadEnrichedLen(
   lang: Lang,
   len: number,
 ): Promise<readonly EnrichedEntry[]> {
-  const mod = (await import(`./data/${lang}/enriched/len-${len}.js`)) as {
-    ENTRIES: readonly EnrichedEntry[];
-  };
+  const load = ENRICHED_LOADERS[lang][len];
+  if (!load) return [];
+  const mod = await load();
   return mod.ENTRIES;
 }
 
