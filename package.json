@@ -1,6 +1,6 @@
 {
   "name": "open-crossword-bank",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Open, seedable bilingual (en/de) crossword word bank — 30k words/language plus a clued subset (syllables, POS, clues), with a pattern-matching query API for grid-filling. Code MIT, data CC0.",
   "author": "Tamino Martinius <io@tamino.dev>",
   "license": "MIT",

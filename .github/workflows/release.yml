@@ -243,8 +243,25 @@ jobs:
             echo "- npm: https://www.npmjs.com/package/open-crossword-bank/v/$VERSION"
             echo "- Release: https://github.com/tamino-martinius/node-open-crossword-bank/releases/tag/v$VERSION"
           } > "$RUNNER_TEMP/pr-body.md"
-          gh pr create \
-            --base main \
-            --head "release/v$VERSION" \
-            --title "chore(release): v$VERSION" \
-            --body-file "$RUNNER_TEMP/pr-body.md"
+          BRANCH="release/v$VERSION"
+          # Idempotent: if a PR for this release branch is already open (e.g. a
+          # re-run), don't fail — just report it.
+          EXISTING=$(gh pr list --head "$BRANCH" --base main --state open --json url --jq '.[0].url // ""')
+          if [ -n "$EXISTING" ]; then
+            echo "Version-bump PR already open: $EXISTING"
+            exit 0
+          fi
+          # A create failure here does NOT mean the release failed: v$VERSION is
+          # already published, tagged, and released by this point. The usual cause
+          # is the missing repo setting below — surface it with a clear next step
+          # instead of a cryptic GraphQL error, and fail so a maintainer notices.
+          if ! gh pr create \
+                --base main \
+                --head "$BRANCH" \
+                --title "chore(release): v$VERSION" \
+                --body-file "$RUNNER_TEMP/pr-body.md"; then
+            COMPARE="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/main...${BRANCH}?expand=1"
+            echo "::error::v$VERSION is published and tagged, but opening the version-bump PR failed."
+            echo "::error::Enable Settings → Actions → General → Workflow permissions → 'Allow GitHub Actions to create and approve pull requests', then open the PR manually: $COMPARE"
+            exit 1
+          fi
