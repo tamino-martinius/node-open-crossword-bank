@@ -26,7 +26,7 @@
   "keywords": ["crossword", "words", "wordlist", "wordbank", "clues", "german", "english", "cc0", "seeded", "pattern", "typescript"],
   "engines": { "node": ">=22" },
   "scripts": {
-    "gen": "node scripts/build-manifest.mjs && biome format --write src/core/manifest.ts src/data/en/index.ts src/data/de/index.ts",
+    "gen": "node scripts/build-manifest.mjs && biome format --write src/core/manifest.ts src/core/loaders.ts src/data/en/index.ts src/data/de/index.ts",
     "prebuild": "npm run gen",
     "compile": "rm -rf dist esm && npm run gen && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json --noCheck && node .github/scripts/write-build-markers.mjs",
     "lint": "biome check",
