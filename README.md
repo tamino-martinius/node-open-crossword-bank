@@ -300,7 +300,7 @@ type Pos         = 'noun' | 'verb' | 'adjective' | 'adverb' | 'other';
 
 ## Bundler code-splitting note
 
-The main entry (`open-crossword-bank`) uses dynamic `import('./data/${lang}/base/tier-${tier}.js')` and `import('./data/${lang}/enriched/len-${len}.js')` expressions with static path prefixes. Bundlers that analyse static import patterns (Webpack, Vite, esbuild) will code-split each tier and length leaf into its own chunk automatically. A query scoped to one tier or a narrow length range loads only those chunks.
+The main entry (`open-crossword-bank`) loads each tier and length leaf through generated maps of literal `import('./data/<lang>/base/tier-<n>.js')` / `import('./data/<lang>/enriched/len-<n>.js')` calls (`src/core/loaders.ts`, built by `scripts/build-manifest.mjs`). Because every import target is a literal string, bundlers that analyse static import patterns (Webpack, Vite, esbuild) code-split each tier and length leaf into its own chunk automatically. A query scoped to one tier or a narrow length range loads only those chunks.
 
 The per-language entries (`/en`, `/de`) eagerly import everything for that language; prefer them for server-side usage where startup cost is acceptable and you want the simpler sync API.
 
