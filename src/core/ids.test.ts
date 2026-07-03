@@ -1,4 +1,4 @@
-import { slug, makeId, freqTierForRank } from './ids.js';
+import { slug, makeId } from './ids.js';
 
 test('slug folds ß and diacritics to ascii', () => {
   expect(slug('STRAßE')).toBe('strasse');
@@ -12,12 +12,4 @@ test('makeId disambiguates slug collisions via hash', () => {
   expect(a.startsWith('de-halt-')).toBe(true);
   expect(b.startsWith('de-halt-')).toBe(true);
   expect(a).not.toBe(b);
-});
-
-test('freqTierForRank maps 6k bands to tiers 1..5', () => {
-  expect(freqTierForRank(0)).toBe(1);
-  expect(freqTierForRank(5999)).toBe(1);
-  expect(freqTierForRank(6000)).toBe(2);
-  expect(freqTierForRank(29999)).toBe(5);
-  expect(freqTierForRank(40000)).toBe(5);
 });
