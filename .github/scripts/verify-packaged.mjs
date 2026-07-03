@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, writeFileSync, copyFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, copyFileSync, rmSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -34,6 +34,20 @@ try {
   step('install packed tarball + typescript', () => {
     npmInstall(['install', tgz, 'typescript@latest', '--no-audit', '--no-fund', '--silent'], tmp);
   }, { critical: true });
+
+  step('package contains no source maps', () => {
+    const pkgDir = join(tmp, 'node_modules', 'open-crossword-bank');
+    const maps = [];
+    const walk = (d) => {
+      for (const ent of readdirSync(d, { withFileTypes: true })) {
+        const p = join(d, ent.name);
+        if (ent.isDirectory()) walk(p);
+        else if (ent.name.endsWith('.map')) maps.push(p);
+      }
+    };
+    walk(pkgDir);
+    if (maps.length) throw new Error(`expected 0 source maps, found ${maps.length}: ${maps.slice(0, 3).join(', ')}`);
+  });
 
   step('copy smoke consumers', () => {
     copyFileSync(join(here, 'smoke', 'consumer.cjs'), join(tmp, 'consumer.cjs'));
