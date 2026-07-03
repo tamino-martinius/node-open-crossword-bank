@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["src/**/*.ts", "!src/data/*/base", "!src/data/*/enriched"]
+    "includes": ["src/**/*.ts"]
   },
   "formatter": {
     "enabled": true,

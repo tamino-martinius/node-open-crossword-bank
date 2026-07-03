@@ -35,17 +35,20 @@ export type {
 } from './types.js';
 export { matchesPattern, toPattern, WILDCARD } from './core/pattern.js';
 
-async function loadBaseTier(lang: Lang, tier: FreqTier): Promise<WordEntry[]> {
-  const mod = await BASE_LOADERS[lang][tier]();
-  return hydrateBase(lang, tier, mod.WORDS);
-}
-async function loadEnrichedLen(
+async function loadBaseLeaf(
   lang: Lang,
   len: number,
+  tier: FreqTier,
+): Promise<WordEntry[]> {
+  const mod = await BASE_LOADERS[lang][len][tier]();
+  return hydrateBase(lang, tier, mod.WORDS);
+}
+async function loadEnrichedLeaf(
+  lang: Lang,
+  len: number,
+  tier: number,
 ): Promise<readonly EnrichedEntry[]> {
-  const load = ENRICHED_LOADERS[lang][len];
-  if (!load) return [];
-  const mod = await load();
+  const mod = await ENRICHED_LOADERS[lang][len][tier]();
   return mod.ENTRIES;
 }
 
@@ -63,23 +66,34 @@ function lengthsFor(lang: Lang, query: WordQuery): number[] {
   return LENGTHS[lang].includes(len) ? [len] : [];
 }
 
-async function loadWords(
-  lang: Lang,
-  query: { tier?: FreqTier | FreqTier[] },
-): Promise<WordEntry[]> {
-  const chunks = await Promise.all(
-    tiersFor(lang, query).map((t) => loadBaseTier(lang, t)),
-  );
-  return chunks.flat();
+async function loadWords(lang: Lang, query: WordQuery): Promise<WordEntry[]> {
+  const lengths = lengthsFor(lang, query);
+  const tiers = tiersFor(lang, query);
+  const chunks: Promise<WordEntry[]>[] = [];
+  for (const len of lengths) {
+    const byTier = BASE_LOADERS[lang][len];
+    if (!byTier) continue;
+    for (const tier of tiers) {
+      if (byTier[tier]) chunks.push(loadBaseLeaf(lang, len, tier));
+    }
+  }
+  return (await Promise.all(chunks)).flat();
 }
 async function loadEnriched(
   lang: Lang,
   query: WordQuery,
 ): Promise<EnrichedEntry[]> {
-  const chunks = await Promise.all(
-    lengthsFor(lang, query).map((l) => loadEnrichedLen(lang, l)),
-  );
-  return chunks.flat();
+  const lengths = lengthsFor(lang, query);
+  const tiers = tiersFor(lang, query);
+  const chunks: Promise<readonly EnrichedEntry[]>[] = [];
+  for (const len of lengths) {
+    const byTier = ENRICHED_LOADERS[lang][len];
+    if (!byTier) continue;
+    for (const tier of tiers) {
+      if (byTier[tier]) chunks.push(loadEnrichedLeaf(lang, len, tier));
+    }
+  }
+  return (await Promise.all(chunks)).flat();
 }
 async function cluableIdsFor(
   lang: Lang,
