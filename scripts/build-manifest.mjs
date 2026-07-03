@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+// Emits manifest.ts, loaders.ts, and the per-language barrels from the len-<L>/tier-<T>
+// data grid. Output here is intentionally unformatted; `npm run gen` runs
+// `biome format --write` on these files as a second step, so the committed files are
+// the biome-formatted version of what this writes — not hand-edited.
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
