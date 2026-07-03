@@ -50,8 +50,16 @@ describe.each(LANGS)('$lang data integrity', ({
   });
 
   test('manifest base counts match leaf contents', () => {
-    for (const b of base) expect(b.words.length).toBe(baseCounts[b.tier]);
-    expect(base.map((b) => b.tier).sort((a, b) => a - b)).toEqual(
+    // BASE has one element per (len,tier) leaf, so multiple elements can
+    // share a tier; aggregate word counts per tier before comparing against
+    // the manifest's per-tier totals.
+    const wordsByTier = new Map<number, number>();
+    for (const b of base) {
+      wordsByTier.set(b.tier, (wordsByTier.get(b.tier) ?? 0) + b.words.length);
+    }
+    for (const [tier, count] of wordsByTier)
+      expect(count).toBe(baseCounts[tier]);
+    expect([...wordsByTier.keys()].sort((a, b) => a - b)).toEqual(
       Object.keys(baseCounts)
         .map(Number)
         .sort((a, b) => a - b),

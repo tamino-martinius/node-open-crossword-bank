@@ -6,7 +6,7 @@
 Open, seedable bilingual (English + German) crossword word bank with a pattern-matching query API and backtracking grid-fill session.
 
 - **~30,000 words/language** base layer (five frequency tiers) plus **~6,269 EN / ~6,383 DE** clued enriched entries (syllables, part-of-speech, tagged clues)
-- **Seeded, deterministic** selection — same seed always returns the same words in the same order
+- **Seeded, deterministic** selection — within a version, the same seed always returns the same words in the same order (seed→output may change between versions)
 - **Pattern matching** for grid slots — `'?A??E'` returns every word that fits that slot
 - **Backtracking `createFill`** — stateful session with `candidates` / `place` / `unplace` for recursive grid-solvers
 - **Dual CJS + ESM** build; tree-shakeable per-language sync entries
@@ -117,7 +117,7 @@ const hits = fill.candidates('?A??E');
 
 ## Seed / determinism contract
 
-- When `seed` is provided to `getWords`, `getEntries`, or `createFill`, the selection order is fully deterministic — the same seed always returns the same results.
+- When `seed` is provided to `getWords`, `getEntries`, or `createFill`, the selection order is fully deterministic **within a version** — the same seed always returns the same results. Seed→output is not guaranteed stable across versions: a data or layout change can reshuffle results (e.g. unfiltered/tier-only `getWords` and `createFill` orderings change when the underlying word chunking changes, while length/pattern `getWords` and all `getEntries` queries are unaffected).
 - When `seed` is omitted, a fresh random order is used each call. For `createFill`, one random seed is captured at construction time so candidate orderings stay internally consistent throughout a backtracking search, while different sessions still vary.
 - `count` is a soft cap: you may receive fewer results if the filtered pool is smaller than `count`.
 

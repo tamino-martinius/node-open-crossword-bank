@@ -2,7 +2,9 @@
 
 ## vNext
 
-TBD
+- **Data layout:** base and enriched words are now chunked on a length × tier grid (`len-<L>/tier-<T>`), so a query filtered by length, tier, or both loads only the relevant leaves — much smaller transfer for fixed-length or single-tier use (e.g. a five-letter Wordle pool). No API changes.
+- **Source maps:** `.js.map` files are no longer published (smaller install; no runtime effect).
+- **Seeded ordering:** seed→output is byte-identical to v1.0.1 for length/pattern `getWords` and for all `getEntries` queries, but **changes** for unfiltered/tier-only `getWords` and for `createFill` orderings (the base pool is now length-grouped before shuffling). Selection stays deterministic **within a version**; seed→output is not guaranteed stable across versions.
 
 ## v1.0.1
 
