@@ -7,7 +7,7 @@ test('manifest declares 5 tiers and length buckets per language', () => {
   expect(LENGTHS.de.length).toBeGreaterThanOrEqual(10);
 });
 
-test('base counts sum to ~30k per language', () => {
+test('base counts sum to 90k per language', () => {
   const sum = (o: Record<number, number>) =>
     Object.values(o).reduce((a, b) => a + b, 0);
   expect(sum(BASE_COUNTS.en)).toBe(90000);
