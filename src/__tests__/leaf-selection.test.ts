@@ -54,6 +54,9 @@ test('tier query loads only that tier across lengths', async () => {
   try {
     await main.getWords('en', { tier: 2, seed: 1 });
     expect(touched.every(([, tier]) => tier === 2)).toBe(true);
+    expect(touched.length).toBe(
+      LENGTHS.en.filter((len) => BASE_LOADERS.en[len]?.[2]).length,
+    );
   } finally {
     restore();
   }
