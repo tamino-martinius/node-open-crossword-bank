@@ -71,20 +71,12 @@ import { ENTRIES as e_6_1 } from './enriched/len-6/tier-1.js';
 import { ENTRIES as e_7_1 } from './enriched/len-7/tier-1.js';
 import { ENTRIES as e_8_1 } from './enriched/len-8/tier-1.js';
 import { ENTRIES as e_9_1 } from './enriched/len-9/tier-1.js';
-import { ENTRIES as e_9_2 } from './enriched/len-9/tier-2.js';
 import { ENTRIES as e_10_1 } from './enriched/len-10/tier-1.js';
-import { ENTRIES as e_10_2 } from './enriched/len-10/tier-2.js';
 import { ENTRIES as e_11_1 } from './enriched/len-11/tier-1.js';
-import { ENTRIES as e_11_2 } from './enriched/len-11/tier-2.js';
 import { ENTRIES as e_12_1 } from './enriched/len-12/tier-1.js';
-import { ENTRIES as e_12_2 } from './enriched/len-12/tier-2.js';
 import { ENTRIES as e_13_1 } from './enriched/len-13/tier-1.js';
-import { ENTRIES as e_13_2 } from './enriched/len-13/tier-2.js';
 import { ENTRIES as e_14_1 } from './enriched/len-14/tier-1.js';
-import { ENTRIES as e_14_2 } from './enriched/len-14/tier-2.js';
 import { ENTRIES as e_15_1 } from './enriched/len-15/tier-1.js';
-import { ENTRIES as e_15_2 } from './enriched/len-15/tier-2.js';
-import { ENTRIES as e_15_3 } from './enriched/len-15/tier-3.js';
 
 export const BASE: readonly { tier: FreqTier; words: readonly string[] }[] = [
   { tier: 1, words: b_3_1 },
@@ -161,18 +153,10 @@ export const ENTRIES: readonly EnrichedEntry[] = [
   ...e_7_1,
   ...e_8_1,
   ...e_9_1,
-  ...e_9_2,
   ...e_10_1,
-  ...e_10_2,
   ...e_11_1,
-  ...e_11_2,
   ...e_12_1,
-  ...e_12_2,
   ...e_13_1,
-  ...e_13_2,
   ...e_14_1,
-  ...e_14_2,
   ...e_15_1,
-  ...e_15_2,
-  ...e_15_3,
 ];
