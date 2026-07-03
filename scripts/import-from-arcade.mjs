@@ -4,7 +4,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { bucketByLength, bucketByTier } from './regrid-lib.mjs';
-import { parseWords, freqTierForRank, retierEntry } from './import-lib.mjs';
+import { parseWords, freqTierForRank, retierEntry, readEnrichedFull } from './import-lib.mjs';
 
 const BAND = Number(process.env.CW_BAND ?? 18000);
 const DATA = join('src', 'data');
@@ -55,8 +55,8 @@ for (const lang of langs) {
     for (const [len, words] of bucketByLength(byTier.get(tier))) emitBase(lang, len, tier, words);
   }
 
-  // --- ENRICHED: re-tier the current entries from the compiled ESM, rewrite the grid ---
-  const { ENTRIES } = await import(new URL(`../esm/data/${lang}/index.js`, import.meta.url));
+  // --- ENRICHED: re-tier the current entries from the arcade JSON dump, rewrite the grid ---
+  const ENTRIES = readEnrichedFull(readFileSync(join(IMPORT, `enriched-full-${lang}.json`), 'utf8'));
   const retiered = ENTRIES.map((e) => retierEntry(e, rankMap, BAND));
   rmSync(join(DATA, lang, 'enriched'), { recursive: true, force: true });
   const lenGroups = new Map();

@@ -16,3 +16,12 @@ export function retierEntry(entry, rankMap, band) {
   if (rank === undefined) throw new Error(`enriched word not in base: ${entry.word}`);
   return { ...entry, freqTier: freqTierForRank(rank, band) };
 }
+
+/** Parse arcade's enriched-full-<lang>.json (array of EnrichedEntry). Throws if malformed. */
+export function readEnrichedFull(jsonText) {
+  const data = JSON.parse(jsonText);
+  if (!Array.isArray(data) || data.length === 0) {
+    throw new Error('readEnrichedFull: expected a non-empty array of entries');
+  }
+  return data;
+}
