@@ -1,4 +1,4 @@
-import type { FreqTier, Lang } from '../types.js';
+import type { Lang } from '../types.js';
 
 /** Lower-case ascii slug for stable ids (folds ß→ss, strips diacritics). */
 export function slug(s: string): string {
@@ -24,11 +24,4 @@ function hashWord(word: string): string {
 /** Stable, unique id: `${lang}-${slug(word)}-${hash}`. */
 export function makeId(lang: Lang, word: string): string {
   return `${lang}-${slug(word)}-${hashWord(word)}`;
-}
-
-const BAND = 6000;
-/** Map a 0-based frequency rank (0 = most common) into a 1–5 tier, 6k per band. */
-export function freqTierForRank(rank0: number): FreqTier {
-  const band = Math.floor(rank0 / BAND) + 1;
-  return (band < 1 ? 1 : band > 5 ? 5 : band) as FreqTier;
 }

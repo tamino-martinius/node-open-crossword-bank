@@ -82,3 +82,12 @@ describe.each(LANGS)('$lang data integrity', ({
       expect(byLen.get(Number(len))).toBe(n);
   });
 });
+
+test('enriched freqTier equals the base leaf tier holding that word', () => {
+  for (const { base, entries } of LANGS) {
+    const tierOf = new Map<string, number>();
+    for (const { tier, words } of base)
+      for (const w of words) tierOf.set(w, tier);
+    for (const e of entries) expect(e.freqTier).toBe(tierOf.get(e.word));
+  }
+});

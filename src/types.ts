@@ -1,5 +1,5 @@
 export type Lang = 'en' | 'de';
-/** 1 = most common … 5 = rarest of the 30k. */
+/** 1 = most common … 5 = rarest of the 90k. */
 export type FreqTier = 1 | 2 | 3 | 4 | 5;
 /** 1 = easiest clue … 5 = hardest. */
 export type Difficulty = 1 | 2 | 3 | 4 | 5;
@@ -12,7 +12,7 @@ export interface Clue {
   text: string;
 }
 
-/** Base entry — every word in the 30k carries at least this. */
+/** Base entry — every word in the 90k carries at least this. */
 export interface WordEntry {
   /** Stable unique id: `${lang}-${slug(word)}-${hash}`. */
   id: string;
