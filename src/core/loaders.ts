@@ -207,6 +207,7 @@ export const ENRICHED_LOADERS: EnrichedGrid = {
   en: {
     3: {
       1: () => import('../data/en/enriched/len-3/tier-1.js'),
+      2: () => import('../data/en/enriched/len-3/tier-2.js'),
     },
     4: {
       1: () => import('../data/en/enriched/len-4/tier-1.js'),
@@ -225,24 +226,31 @@ export const ENRICHED_LOADERS: EnrichedGrid = {
     },
     9: {
       1: () => import('../data/en/enriched/len-9/tier-1.js'),
+      2: () => import('../data/en/enriched/len-9/tier-2.js'),
     },
     10: {
       1: () => import('../data/en/enriched/len-10/tier-1.js'),
+      2: () => import('../data/en/enriched/len-10/tier-2.js'),
     },
     11: {
       1: () => import('../data/en/enriched/len-11/tier-1.js'),
+      2: () => import('../data/en/enriched/len-11/tier-2.js'),
     },
     12: {
       1: () => import('../data/en/enriched/len-12/tier-1.js'),
+      2: () => import('../data/en/enriched/len-12/tier-2.js'),
     },
     13: {
       1: () => import('../data/en/enriched/len-13/tier-1.js'),
+      2: () => import('../data/en/enriched/len-13/tier-2.js'),
     },
     14: {
       1: () => import('../data/en/enriched/len-14/tier-1.js'),
+      2: () => import('../data/en/enriched/len-14/tier-2.js'),
     },
     15: {
       1: () => import('../data/en/enriched/len-15/tier-1.js'),
+      2: () => import('../data/en/enriched/len-15/tier-2.js'),
     },
   },
   de: {
@@ -266,24 +274,31 @@ export const ENRICHED_LOADERS: EnrichedGrid = {
     },
     9: {
       1: () => import('../data/de/enriched/len-9/tier-1.js'),
+      2: () => import('../data/de/enriched/len-9/tier-2.js'),
     },
     10: {
       1: () => import('../data/de/enriched/len-10/tier-1.js'),
+      2: () => import('../data/de/enriched/len-10/tier-2.js'),
     },
     11: {
       1: () => import('../data/de/enriched/len-11/tier-1.js'),
+      2: () => import('../data/de/enriched/len-11/tier-2.js'),
     },
     12: {
       1: () => import('../data/de/enriched/len-12/tier-1.js'),
+      2: () => import('../data/de/enriched/len-12/tier-2.js'),
     },
     13: {
       1: () => import('../data/de/enriched/len-13/tier-1.js'),
+      2: () => import('../data/de/enriched/len-13/tier-2.js'),
     },
     14: {
       1: () => import('../data/de/enriched/len-14/tier-1.js'),
+      2: () => import('../data/de/enriched/len-14/tier-2.js'),
     },
     15: {
       1: () => import('../data/de/enriched/len-15/tier-1.js'),
+      2: () => import('../data/de/enriched/len-15/tier-2.js'),
     },
   },
 };

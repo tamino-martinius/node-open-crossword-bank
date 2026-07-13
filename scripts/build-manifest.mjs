@@ -24,7 +24,9 @@ function gridLeaves(lang, layer) {
 }
 const fileOf = (lang, layer, len, tier) => join(DATA, lang, layer, `len-${len}`, `tier-${tier}.ts`);
 const countWords = (file) => (readFileSync(file, 'utf8').match(/^\s*'/gm) || []).length;
-const countEntries = (file) => (readFileSync(file, 'utf8').match(/^\s*id: '/gm) || []).length;
+// Count entry-opening brace lines — works for the compact one-entry-per-line enriched
+// leaves the importer writes (biome does not reformat them; see biome.json override).
+const countEntries = (file) => (readFileSync(file, 'utf8').match(/^\s*\{/gm) || []).length;
 
 const TIERS = {}, LENGTHS = {}, BASE_COUNTS = {}, ENRICHED_COUNTS = {};
 const baseLoaderSections = [], enrichedLoaderSections = [];
