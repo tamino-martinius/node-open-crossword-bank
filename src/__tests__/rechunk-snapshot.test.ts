@@ -19,19 +19,26 @@ const preserved: Array<[string, () => Promise<string[]>]> = [
         (w) => w.id,
       ),
   ],
+  // Enriched pools are large (~18k at 20% coverage); snapshot a bounded, seeded
+  // prefix so the fixture stays fast and small while still pinning order stability.
   [
     'en entries length=6',
     async () =>
-      (await main.getEntries('en', { length: 6, seed: 2 })).map((e) => e.id),
+      (await main.getEntries('en', { length: 6, seed: 2, count: 200 })).map(
+        (e) => e.id,
+      ),
   ],
   [
     'de entries tier=1',
     async () =>
-      (await main.getEntries('de', { tier: 1, seed: 2 })).map((e) => e.id),
+      (await main.getEntries('de', { tier: 1, seed: 2, count: 200 })).map(
+        (e) => e.id,
+      ),
   ],
   [
     'en entries unfiltered',
-    async () => (await main.getEntries('en', { seed: 9 })).map((e) => e.id),
+    async () =>
+      (await main.getEntries('en', { seed: 9, count: 200 })).map((e) => e.id),
   ],
 ];
 
