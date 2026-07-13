@@ -6,7 +6,7 @@
 - **Source maps:** `.js.map` files are no longer published (smaller install; no runtime effect).
 - **Seeded ordering:** seed→output is byte-identical to v1.0.1 for length/pattern `getWords` and for all `getEntries` queries, but **changes** for unfiltered/tier-only `getWords` and for `createFill` orderings (the base pool is now length-grouped before shuffling). Selection stays deterministic **within a version**; seed→output is not guaranteed stable across versions.
 - **Base grew to 90,000 words/language** (five frequency tiers of 18,000 each). Word membership and tier boundaries changed: **tier 1 is now the top 18k** (was top 6k).
-- **Enriched entries re-tiered** under the new 18k band; clue texts unchanged. Because every currently-clued word ranks within the top 18k, **all enriched entries are now `freqTier` 1** — enriched tier-filtering effectively returns all-or-nothing until the enrichment increment adds clues for rarer words. The clued subset is still ~6.3k/lang, so enriched coverage is temporarily ~7%.
+- **Enriched clued subset grew to ~20% per length** (~17,997 EN / ~17,939 DE entries, up from ~6,269 / ~6,383) — clues authored via the LLM pipeline and validated (2–3 tagged clues each, no answer leaks). Re-tiered under the 18k band, entries now span tiers 1–2, so enriched `tier` filtering is meaningful.
 - **Breaking (data):** seeded `getWords`/`getEntries`/`createFill` output changes (new words, new tiers). Determinism holds within this version.
 
 ## v1.0.1
