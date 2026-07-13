@@ -5,7 +5,7 @@
 
 Open, seedable bilingual (English + German) crossword word bank with a pattern-matching query API and backtracking grid-fill session.
 
-- **~90,000 words/language** base layer (five frequency tiers) plus **~6,269 EN / ~6,383 DE** clued enriched entries (syllables, part-of-speech, tagged clues)
+- **~90,000 words/language** base layer (five frequency tiers) plus **~17,997 EN / ~17,939 DE** clued enriched entries (~20% coverage; syllables, part-of-speech, tagged clues)
 - **Seeded, deterministic** selection — within a version, the same seed always returns the same words in the same order (seed→output may change between versions)
 - **Pattern matching** for grid slots — `'?A??E'` returns every word that fits that slot
 - **Backtracking `createFill`** — stateful session with `candidates` / `place` / `unplace` for recursive grid-solvers
@@ -48,7 +48,7 @@ console.log(clued[0].clues[0].text);
 
 // Synchronous metadata (no await needed)
 console.log(wordCount('en'));    // 90000
-console.log(entryCount('de'));   // 6383
+console.log(entryCount('de'));   // 17939
 ```
 
 ### Sync per-language entry

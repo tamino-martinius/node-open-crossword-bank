@@ -13,5 +13,7 @@ test('base counts sum to 90k per language', () => {
   expect(sum(BASE_COUNTS.en)).toBe(90000);
   expect(sum(BASE_COUNTS.de)).toBe(90000);
   for (const t of [1, 2, 3, 4, 5]) expect(BASE_COUNTS.en[t]).toBe(18000);
-  expect(sum(ENRICHED_COUNTS.en)).toBeGreaterThan(3000);
+  // ~20% of 90k clued (allowing for words validate() left unclued).
+  expect(sum(ENRICHED_COUNTS.en)).toBeGreaterThan(15000);
+  expect(sum(ENRICHED_COUNTS.de)).toBeGreaterThan(15000);
 });

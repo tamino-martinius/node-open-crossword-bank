@@ -34,6 +34,10 @@
     {
       "includes": ["src/data/**"],
       "linter": { "enabled": false }
+    },
+    {
+      "includes": ["src/data/**/enriched/**"],
+      "formatter": { "enabled": false }
     }
   ]
 }

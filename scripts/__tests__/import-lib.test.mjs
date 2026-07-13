@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseWords, freqTierForRank, retierEntry } from '../import-lib.mjs';
+import { parseWords, freqTierForRank, retierEntry, readEnrichedFull } from '../import-lib.mjs';
 
 test('parseWords extracts words in file order', () => {
   const src = 'export const WORDS: readonly string[] = [\n  "THE",\n  "AND",\n  "FÜR",\n];\n';
@@ -28,4 +28,17 @@ test('retierEntry recomputes freqTier from rank; preserves everything else', () 
 
 test('retierEntry throws on a word missing from the base', () => {
   assert.throws(() => retierEntry({ word: 'ZZZ' }, new Map(), 18000), /not in base/);
+});
+
+test('readEnrichedFull parses a non-empty entry array', () => {
+  const json = JSON.stringify([{ id: 'en-x-1', word: 'X', lang: 'en', freqTier: 1, length: 1, pos: 'other', syllables: ['X'], clues: [] }]);
+  const out = readEnrichedFull(json);
+  assert.equal(out.length, 1);
+  assert.equal(out[0].word, 'X');
+  assert.deepEqual(out[0].syllables, ['X']);
+});
+
+test('readEnrichedFull rejects a non-array or empty payload', () => {
+  assert.throws(() => readEnrichedFull('{}'), /expected a non-empty array/);
+  assert.throws(() => readEnrichedFull('[]'), /expected a non-empty array/);
 });
