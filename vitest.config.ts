@@ -21,6 +21,12 @@ export default defineConfig({
   test: {
     globals: true,
     include: ['src/**/*.{test,spec}.ts'],
+    // Several integration tests load an entire enriched pool (~18k entries) and
+    // transform every `.ts` data chunk on the fly. That's ~1.5-2s locally but
+    // can exceed the 5s default on cold/slow CI runners (macOS in particular).
+    // Bounding snapshot output with `count` doesn't help — the load is the cost.
+    // Give data-loading tests headroom while still catching a genuine hang.
+    testTimeout: 30000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],
