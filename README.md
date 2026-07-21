@@ -313,3 +313,7 @@ Word and clue data is generated with AI assistance and validated programmaticall
 3. Run the full test suite (includes data-integrity checks): `npm test`
 
 The data-integrity suite enforces: unique IDs, required fields, valid frequency tiers, and clue structure.
+
+## Related projects
+
+- [**open-quiz-bank**](https://github.com/tamino-martinius/node-open-quiz-bank) ([npm](https://www.npmjs.com/package/open-quiz-bank)) — sibling package with the same design: an open, seedable, bilingual (EN + DE) quiz question bank with a small query API. Code MIT, data CC0-1.0.
